@@ -5,6 +5,7 @@ use App\Http\Controllers\TaskController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Models\Task;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -16,7 +17,18 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $tasks = Task::all();
+
+    // To get all tasks completed, ordered by date added
+    $tasks_done = Task::where('completed', 1)
+        ->orderBy('created_at')
+        ->get();
+    // To get all tasks not completed, ordered by date added
+    $tasks_not_done = Task::where('completed', 0)
+        ->orderBy('created_at')
+        ->get();
+
+    return Inertia::render('Dashboard', ['tasks_done' => $tasks_done, 'tasks_not_done' => $tasks_not_done]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -25,7 +37,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('tasks', TaskController::class)->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/task', [TaskController::class, 'add_task'])->name('task.add_task');
+    Route::post('/task', [TaskController::class, 'store'])->name('task.store');
+    //
+    // Route::get('/tasks', [TaskController::class, 'show']);
 
 
-require __DIR__.'/auth.php';
+});
+
+
+
+require __DIR__ . '/auth.php';
