@@ -19,16 +19,14 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     $tasks = Task::all();
 
-    // To get all tasks completed, ordered by date added
-    $tasks_done = Task::where('completed', 1)
-        ->orderBy('created_at', 'desc')
-        ->get();
-    // To get all tasks not completed, ordered by date added
-    $tasks_not_done = Task::where('completed', 0)
-        ->orderBy('created_at','desc')
-        ->get();
+    // To get all tasks , ordered by completed then by date updated
+    $tasks = Task::orderBy('completed')
+             ->orderBy('updated_at', 'desc')
+             ->get();
 
-    return Inertia::render('Dashboard', ['tasks_done' => $tasks_done, 'tasks_not_done' => $tasks_not_done]);
+
+
+    return Inertia::render('Dashboard', ['tasks' => $tasks]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

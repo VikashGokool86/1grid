@@ -25,9 +25,8 @@ import TaskList from './Task/TaskList.vue';
             </template>
             <div class="task_wrapper">
                 <div class="notDoneTasksWrapper">
-                    <div v-if="$page.props.tasks_not_done">
-                        <h2>To-Do Tasks</h2>
-                        <div v-for="task in $page.props.tasks_not_done" :key="task.id">
+                    <div v-if="$page.props.tasks">
+                        <div v-for="task in $page.props.tasks" :key="task.id">
                             <task-list
                                 :task="task"
                             ></task-list>
@@ -37,21 +36,7 @@ import TaskList from './Task/TaskList.vue';
                         <p> No  Tasks to display</p>
                     </div>
                 </div>
-                <!-- <div class="doneTasksWrapper">
-                    <div v-if="$page.props.tasks_done">
-                        <h2>Done Tasks</h2>
-                        <div v-for="task in $page.props.tasks_done" :key="task.id">
-                             <task-list
-                                :task="task"
-                            ></task-list>
-                        </div>
 
-                    </div>
-                    <div v-else>
-                        <p> No  Tasks to display</p>
-
-                    </div>
-                </div> -->
             </div>
         </AuthenticatedLayout>
     </div>
@@ -76,10 +61,4 @@ export default {
     flex-grow: 1;
 }
 
-/* .task_wrapper{
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    margin: 10px;
-} */
 </style>

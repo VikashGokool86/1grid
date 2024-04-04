@@ -21,7 +21,7 @@ const form = reactive({
                         <span :class="statusClass(task.completed)" class="px-2 py-1 text-xs font-semibold rounded">
                             <div v-if="task.completed === 0">pending</div>
                             <div v-if="task.completed === 1">in progress</div>
-                            <div v-if="task.completed === 2">in done</div>
+                            <div v-if="task.completed === 2">done</div>
                         </span>
                     </div>
                     <button @click="toggleDetails"
