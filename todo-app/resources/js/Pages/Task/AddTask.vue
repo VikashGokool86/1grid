@@ -15,7 +15,7 @@ const addTask = () => {
     form.post('/task'), {
         onFinish: () => form.reset('title', 'password_confirmation')
             .then(response => response)
-            .catch(error = error.response)
+            .catch(error => error.response)
     }
 };
 
@@ -29,9 +29,6 @@ const addTask = () => {
             <template #header>
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">Add Task</h2>
             </template>
-            {{  response }}
-
-
             <div class="max-w-md mx-auto mt-10">
                 <h1 class="text-2xl font-bold text-center mb-6">Add New Todo</h1>
                 <form @submit.prevent="addTask" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">

@@ -11,13 +11,6 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Display the add task page.
@@ -27,10 +20,10 @@ class TaskController extends Controller
         return Inertia::render('Task/AddTask');
     }
 
-
     /**
      * Store a newly created resource in storage.
      * @parm Request Request|object
+     *
      */
     public function store(Request $request)
     {
@@ -57,34 +50,47 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        // Validate the request data
+        $validatedData = $request->validate([
+            'id' => 'required|integer',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'completed' => 'required|integer'
+
+        ]);
+        // Find the task by ID
+        $task = Task::find($validatedData['id']);
+
+        // Check if task exists
+        if (!$task) {
+            return redirect()->back()->withErrors(['error' => 'Task not found.']);
+        }
+
+        // Update the task with validated data
+        $task->title = $validatedData['title'];
+        $task->description = $validatedData['description'];
+        $task->completed = $validatedData['completed'];
+
+        // Save the changes
+        $task->save();
+        // Redirect back or to another page with success message
+        return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Removes a task from the tasks table.
      */
-    public function destroy(string $id)
+    public function delete(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'id' => 'required|integer'
+        ]);
+        Task::destroy($validatedData['id']);
+        return redirect()->route('dashboard');
+
     }
 }

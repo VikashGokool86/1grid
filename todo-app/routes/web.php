@@ -21,11 +21,11 @@ Route::get('/dashboard', function () {
 
     // To get all tasks completed, ordered by date added
     $tasks_done = Task::where('completed', 1)
-        ->orderBy('created_at')
+        ->orderBy('created_at', 'desc')
         ->get();
     // To get all tasks not completed, ordered by date added
     $tasks_not_done = Task::where('completed', 0)
-        ->orderBy('created_at')
+        ->orderBy('created_at','desc')
         ->get();
 
     return Inertia::render('Dashboard', ['tasks_done' => $tasks_done, 'tasks_not_done' => $tasks_not_done]);
@@ -41,12 +41,11 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/task', [TaskController::class, 'add_task'])->name('task.add_task');
     Route::post('/task', [TaskController::class, 'store'])->name('task.store');
-    //
-    // Route::get('/tasks', [TaskController::class, 'show']);
+    Route::post('/task', [TaskController::class, 'update'])->name('task.update');
+    Route::post('/task', [TaskController::class, 'delete'])->name('task.delete');
 
 
 });
-
 
 
 require __DIR__ . '/auth.php';

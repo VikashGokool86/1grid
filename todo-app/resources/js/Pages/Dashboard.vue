@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3'
+import TaskList from './Task/TaskList.vue';
 </script>
 
 <template>
@@ -26,22 +27,31 @@ import { Link } from '@inertiajs/vue3'
                 <div class="notDoneTasksWrapper">
                     <div v-if="$page.props.tasks_not_done">
                         <h2>To-Do Tasks</h2>
-                        <div v-for="task in $page.props.tasks_not_done" :key="task.id">{{ task.title }}</div>
+                        <div v-for="task in $page.props.tasks_not_done" :key="task.id">
+                            <task-list
+                                :task="task"
+                            ></task-list>
+                        </div>
                     </div>
                     <div v-else>
                         <p> No  Tasks to display</p>
                     </div>
                 </div>
-                <div class="doneTasksWrapper">
+                <!-- <div class="doneTasksWrapper">
                     <div v-if="$page.props.tasks_done">
                         <h2>Done Tasks</h2>
-                        <div v-for="task in $page.props.tasks_not_done" :key="task.id">{{ task.title }}</div>
+                        <div v-for="task in $page.props.tasks_done" :key="task.id">
+                             <task-list
+                                :task="task"
+                            ></task-list>
+                        </div>
+
                     </div>
                     <div v-else>
                         <p> No  Tasks to display</p>
 
                     </div>
-                </div>
+                </div> -->
             </div>
         </AuthenticatedLayout>
     </div>
@@ -50,6 +60,7 @@ import { Link } from '@inertiajs/vue3'
 
 <script>
 export default {
+  components: { TaskList },
     props: {
         tasks: null
     }
@@ -65,10 +76,10 @@ export default {
     flex-grow: 1;
 }
 
-.task_wrapper{
+/* .task_wrapper{
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
     margin: 10px;
-}
+} */
 </style>
