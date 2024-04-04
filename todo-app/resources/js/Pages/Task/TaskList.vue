@@ -127,7 +127,7 @@ export default {
             const buttonValue = event.submitter.value;
 
             if (buttonValue === 'update') {
-                Inertia.post('/task', {
+                Inertia.post('/task/update', {
                     id: this.task.id,
                     title: this.task.title,
                     description: this.task.description,
@@ -135,7 +135,7 @@ export default {
                 });
             } else if (buttonValue === 'delete') {
                 if (confirm('Are you sure you want to delete this task?')) {
-                    Inertia.post('/task', {
+                    Inertia.post('/task/delete', {
                         id: this.task.id
                     });
                 }

@@ -12,7 +12,7 @@ const form = useForm({
 });
 
 const addTask = () => {
-    form.post('/task'), {
+    form.post('/task/store'), {
         onFinish: () => form.reset('title', 'password_confirmation')
             .then(response => response)
             .catch(error => error.response)

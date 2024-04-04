@@ -78,7 +78,7 @@ class TaskController extends Controller
         // Save the changes
         $task->save();
         // Redirect back or to another page with success message
-        return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
+        return redirect()->route('dashboard')->with('success', 'Task updated successfully.');
     }
 
     /**

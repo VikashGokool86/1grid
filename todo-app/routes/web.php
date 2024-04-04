@@ -17,14 +17,10 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $tasks = Task::all();
-
     // To get all tasks , ordered by completed then by date updated
     $tasks = Task::orderBy('completed')
              ->orderBy('updated_at', 'desc')
              ->get();
-
-
 
     return Inertia::render('Dashboard', ['tasks' => $tasks]);
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -38,9 +34,9 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/task', [TaskController::class, 'add_task'])->name('task.add_task');
-    Route::post('/task', [TaskController::class, 'store'])->name('task.store');
-    Route::post('/task', [TaskController::class, 'update'])->name('task.update');
-    Route::post('/task', [TaskController::class, 'delete'])->name('task.delete');
+    Route::post('/task/store', [TaskController::class, 'store'])->name('task.store');
+    Route::post('/task/update', [TaskController::class, 'update'])->name('task.update');
+    Route::post('/task/delete', [TaskController::class, 'delete'])->name('task.delete');
 
 
 });
